@@ -1,10 +1,12 @@
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom";
+
 import api from "../../helpers/Api";
 import Server from "../../apiPaths";
-import { Link } from "react-router-dom";
 import Path from "../../routePaths";
 
 export default function Register() {
+    const navigate = useNavigate();
     const [credentials, setCredentials] = useState({});
 
     const handleInputChange = (e) => {
@@ -18,13 +20,20 @@ export default function Register() {
         e.preventDefault();
         api.post(Server.REGISTER, credentials)
             .then(response => console.log(response))
-            .catch(err => console.log(err));
+            .catch(err => console.log(err))
+            .then(navigate(Path.LOGIN));
     }
 
     return (
         <>
+        <header className="bg-white shadow">
+            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">Register</h1>
+            </div>
+        </header>
+
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                {/* <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img
                         className="mx-auto h-10 w-auto"
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -33,7 +42,7 @@ export default function Register() {
                     <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Register your new account
                     </h2>
-                </div>
+                </div> */}
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
