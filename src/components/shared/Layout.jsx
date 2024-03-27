@@ -30,7 +30,9 @@ function classNames(...classes) {
 export default function Layout() {
     const navigate = useNavigate();
 
-    const logOut = () => {
+    const logOut = (e) => {
+        e.preventDefault();
+
         api.post('logout')
             .then(response => console.log(response))
             .catch(err => console.log(err))
@@ -59,7 +61,7 @@ export default function Layout() {
                                                     <NavLink
                                                         key={item.name}
                                                         to={item.to}
-                                                        className={({isActive}) => classNames(
+                                                        className={({ isActive }) => classNames(
                                                             isActive
                                                                 ? 'bg-gray-900 text-white'
                                                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
@@ -119,17 +121,15 @@ export default function Layout() {
                                                                 )}
                                                             </Menu.Item>
                                                         ))}
-                                                        <hr />
-                                                        <Menu.Item>
-                                                            <button
-                                                                onClick={logOut}
-                                                                className={classNames(
-                                                                    'block px-4 py-2 text-sm text-gray-700'
-                                                                )}
-                                                            >
-                                                                Logout
-                                                            </button>
-                                                        </Menu.Item>
+                                                        <NavLink
+                                                            to='#'
+                                                            onClick={logOut}
+                                                            className={classNames(
+                                                                'block px-4 py-2 text-sm text-gray-700'
+                                                            )}
+                                                        >
+                                                            Logout
+                                                        </NavLink>
                                                     </Menu.Items>
                                                 </Transition>
                                             </Menu>
@@ -151,7 +151,7 @@ export default function Layout() {
                             </div>
 
                             <Disclosure.Panel
-                            className="md:hidden"
+                                className="md:hidden"
                             >
                                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                                     {navigation.map((item) => (
@@ -197,6 +197,15 @@ export default function Layout() {
                                                 {item.name}
                                             </NavLink>
                                         ))}
+                                        <NavLink
+                                            to='#'
+                                            onClick={logOut}
+                                            className={classNames(
+                                                'block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white'
+                                            )}
+                                        >
+                                            Logout
+                                        </NavLink>
                                     </div>
                                 </div>
                             </Disclosure.Panel>
