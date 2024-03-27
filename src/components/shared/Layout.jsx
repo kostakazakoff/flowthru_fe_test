@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -13,17 +13,14 @@ const user = {
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-    { name: 'Home', href: Path.INDEX, current: false },
-    { name: 'Login', href: Path.LOGIN, current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
-    { name: 'Reports', href: '#', current: false },
+    { name: 'Home', to: Path.INDEX },
+    { name: 'Login', to: Path.LOGIN },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
-    { name: 'Log in', href: Path.LOGIN },
-    { name: 'Register', href: Path.REGISTER },
+    { name: 'Your Profile', to: '#' },
+    { name: 'Settings', to: '#' },
+    { name: 'Log in', to: Path.LOGIN },
+    { name: 'Register', to: Path.REGISTER },
 ]
 
 function classNames(...classes) {
@@ -59,11 +56,11 @@ export default function Layout() {
                                         <div className="hidden md:block">
                                             <div className="ml-10 flex items-baseline space-x-4">
                                                 {navigation.map((item) => (
-                                                    <Link
+                                                    <NavLink
                                                         key={item.name}
-                                                        to={item.href}
-                                                        className={classNames(
-                                                            item.current
+                                                        to={item.to}
+                                                        className={({isActive}) => classNames(
+                                                            isActive
                                                                 ? 'bg-gray-900 text-white'
                                                                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                             'rounded-md px-3 py-2 text-sm font-medium'
@@ -71,7 +68,7 @@ export default function Layout() {
                                                         aria-current={item.current ? 'page' : undefined}
                                                     >
                                                         {item.name}
-                                                    </Link>
+                                                    </NavLink>
                                                 ))}
                                             </div>
                                         </div>
@@ -109,19 +106,30 @@ export default function Layout() {
                                                         {userNavigation.map((item) => (
                                                             <Menu.Item key={item.name}>
                                                                 {({ active }) => (
-                                                                    <Link
-                                                                        key={item.href}
-                                                                        to={item.href}
+                                                                    <NavLink
+                                                                        key={item.to}
+                                                                        to={item.to}
                                                                         className={classNames(
                                                                             active ? 'bg-gray-100' : '',
                                                                             'block px-4 py-2 text-sm text-gray-700'
                                                                         )}
                                                                     >
                                                                         {item.name}
-                                                                    </Link>
+                                                                    </NavLink>
                                                                 )}
                                                             </Menu.Item>
                                                         ))}
+                                                        <hr />
+                                                        <Menu.Item>
+                                                            <button
+                                                                onClick={logOut}
+                                                                className={classNames(
+                                                                    'block px-4 py-2 text-sm text-gray-700'
+                                                                )}
+                                                            >
+                                                                Logout
+                                                            </button>
+                                                        </Menu.Item>
                                                     </Menu.Items>
                                                 </Transition>
                                             </Menu>
@@ -142,21 +150,23 @@ export default function Layout() {
                                 </div>
                             </div>
 
-                            <Disclosure.Panel className="md:hidden">
+                            <Disclosure.Panel
+                            className="md:hidden"
+                            >
                                 <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
                                     {navigation.map((item) => (
-                                        <Disclosure.Button
-                                            key={item.name}
-                                            as="a"
-                                            href={item.href}
-                                            className={classNames(
-                                                item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                        <NavLink
+                                            key={item.to}
+                                            to={item.to}
+                                            className={({ isActive }) => classNames(
+                                                isActive
+                                                    ? 'bg-gray-900 text-white'
+                                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                 'block rounded-md px-3 py-2 text-base font-medium'
                                             )}
-                                            aria-current={item.current ? 'page' : undefined}
                                         >
                                             {item.name}
-                                        </Disclosure.Button>
+                                        </NavLink>
                                     ))}
                                 </div>
                                 <div className="border-t border-gray-700 pb-3 pt-4">
@@ -179,22 +189,14 @@ export default function Layout() {
                                     </div>
                                     <div className="mt-3 space-y-1 px-2">
                                         {userNavigation.map((item) => (
-                                            <Disclosure.Button
-                                                key={item.name}
-                                                as="a"
-                                                href={item.href}
+                                            <NavLink
+                                                key={item.to}
+                                                to={item.to}
                                                 className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                                             >
                                                 {item.name}
-                                            </Disclosure.Button>
+                                            </NavLink>
                                         ))}
-                                        <Disclosure.Button
-                                            as='button'
-                                            onClick={logOut}
-                                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                                        >
-                                            Log out
-                                        </Disclosure.Button>
                                     </div>
                                 </div>
                             </Disclosure.Panel>

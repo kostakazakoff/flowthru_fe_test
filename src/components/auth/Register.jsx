@@ -116,7 +116,7 @@ export default function Register() {
 
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Allready registered?
-                        <Link to={Path.LOGIN} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                        <Link to={Path.LOGIN} className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ps-1">
                             Log in here
                         </Link>
                     </p>
